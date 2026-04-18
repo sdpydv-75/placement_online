@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A futuristic anti-gravity website design showcasing neumorphism and glassmorphism.">
+    <title>Starlight | Anti-Gravity Design</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background Elements -->
+    <div class="bg-orbits">
+        <div class="orbit orbit-1"></div>
+        <div class="orbit orbit-2"></div>
+        <div class="orbit orbit-3"></div>
+    </div>
+    
+    <!-- Custom Cursor -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-ring"></div>
+
+    <!-- Sticky Navbar -->
+    <nav class="glass-nav">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon"><i class="fa-solid fa-atom"></i></span>
+                <span class="logo-text">Starlight</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="nav-toggle">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Side Floating Elements -->
+    <div class="float-element side-geo float-slow" style="top: 20%; left: 5%;">
+        <div class="geo-box"></div>
+    </div>
+    <div class="float-element side-geo float-fast" style="top: 70%; right: 8%;">
+        <div class="geo-sphere"></div>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero section">
+        <div class="hero-content">
+            <h1 class="hero-title hidden-text">
+                <span class="gradient-text">Defy</span> Gravity
+            </h1>
+            <p class="hero-subtitle hidden-text">
+                Experience the futuristic fusion of glassmorphism and anti-gravity motion. Elevate your digital presence into the stratosphere.
+            </p>
+            <div class="hero-cta float-y">
+                <a href="#services" class="btn primary-btn">Launch Exploration <i class="fa-solid fa-rocket"></i></a>
+                <a href="#about" class="btn neumorphic-btn">Learn More</a>
+            </div>
+        </div>
+        
+        <div class="hero-visual float-element float-med">
+            <div class="holo-card">
+                <div class="holo-content">
+                    <i class="fa-brands fa-space-awesome holo-icon"></i>
+                    <h3>Zero G Design</h3>
+                    <p>Fluid, lightweight, responsive.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services section">
+        <div class="section-header">
+            <h2 class="gradient-text">Stellar Services</h2>
+            <p>Our core capabilities designed for the future.</p>
+        </div>
+        <div class="services-grid">
+            <div class="service-card float-element float-slow-delay1">
+                <div class="card-icon"><i class="fa-solid fa-microchip"></i></div>
+                <h3>Neural UI</h3>
+                <p>Adaptive interfaces that learn from user behavior to provide personalized experiences.</p>
+            </div>
+            <div class="service-card float-element float-fast-delay2">
+                <div class="card-icon"><i class="fa-solid fa-satellite-dish"></i></div>
+                <h3>Signal Boost</h3>
+                <p>Quantum SEO optimization ensuring your presence is felt across all digital dimensions.</p>
+            </div>
+            <div class="service-card float-element float-med-delay3">
+                <div class="card-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                <h3>Void Shielding</h3>
+                <p>Unbreakable encryption and security protocols protecting your interstellar assets.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about section">
+        <div class="about-container glass-panel">
+            <div class="about-text">
+                <h2 class="gradient-text">About The Core</h2>
+                <p>We are pioneers of the digital frontier. Our mission is to transcend traditional boundaries, bringing forth designs that don't just exist on a screen, but float within the user's perception.</p>
+                <p>By blending <span class="highlight">Glassmorphism</span> with <span class="highlight">Neumorphic soft shadows</span>, we create weightless interfaces that react intuitively to touch and motion.</p>
+                <div class="stats">
+                    <div class="stat-item float-y">
+                        <span class="stat-num">99.9%</span>
+                        <span class="stat-label">Uptime Orbit</span>
+                    </div>
+                    <div class="stat-item float-y">
+                        <span class="stat-num">∞</span>
+                        <span class="stat-label">Possibilities</span>
+                    </div>
+                </div>
+            </div>
+            <div class="about-visual float-element float-slow">
+                <div class="core-reactor">
+                    <div class="reactor-ring"></div>
+                    <div class="reactor-core"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact section">
+        <div class="section-header">
+            <h2 class="gradient-text">Establish Link</h2>
+            <p>Transmit your coordinates and let's begin the sequence.</p>
+        </div>
+        <div class="contact-box glass-panel float-element float-fast">
+            <form class="contact-form">
+                <div class="form-group">
+                    <input type="text" id="name" placeholder=" " required>
+                    <label for="name">Commander Name</label>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="email" placeholder=" " required>
+                    <label for="email">Hyperlink Email</label>
+                </div>
+                <div class="form-group">
+                    <textarea id="message" rows="5" placeholder=" " required></textarea>
+                    <label for="message">Transmission Data</label>
+                </div>
+                <button type="submit" class="btn primary-btn btn-full">Transmit Signals <i class="fa-solid fa-paper-plane"></i></button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="glass-footer">
+        <div class="footer-content">
+            <div class="logo">
+                <span class="logo-icon"><i class="fa-solid fa-atom"></i></span>
+                <span class="logo-text">Starlight</span>
+            </div>
+            <p>&copy; 2026 Starlight Nexus. All frequencies open.</p>
+            <div class="socials">
+                <a href="#" class="float-y"><i class="fa-brands fa-github"></i></a>
+                <a href="#" class="float-y"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#" class="float-y"><i class="fa-brands fa-discord"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
