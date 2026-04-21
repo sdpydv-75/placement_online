@@ -262,7 +262,3 @@ const CertifiedInternship = () => {
 };
 
 export default CertifiedInternship;
-  );
-};
-
-export default CertifiedInternship;
