@@ -27,7 +27,7 @@ const Chatbot = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000/api/v1'}/chat`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || 'https://placement-online.vercel.app/api/v1'}/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
