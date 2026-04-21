@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState([
     { text: "Hello! Main aapka Career Guide Bot hoon. Aap mujhse placements, internships, ya job roles ke baare mein kuch bhi aasan bhasha (Hinglish) mein puch sakte hain!", sender: "bot" }
   ]);
@@ -14,67 +15,39 @@ const Chatbot = () => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages, isOpen]);
+  }, [messages, isOpen, isLoading]);
 
-  const getBotResponse = (msg) => {
-    const text = msg.toLowerCase();
-    
-    // Greeting
-    if (/(hi|hello|hey|namaste|kem cho|kese ho|kaise ho|namaskar|aur|kya haal)/.test(text)) {
-      return "Hello! Main aapka Career Guide Bot bhaiya hoon 😊 Main apki placement ya tech roles ke bare me pareshani door kar sakta hu. Boliye?";
-    }
-    // Salary/Package
-    else if (/(salary|package|paisa|kitna milega|income|kamai|rupee|pay)/.test(text)) {
-      return "Salary toh role pe depend karti hai bhai! Freshers ko Software Engineering me ₹5L-₹15L milta hai, Data Science me ₹8L-₹20L, aur Digital Marketing roles me ₹4L-₹10L average hota hai.";
-    } 
-    // Software Eng / Coding
-    else if (/(software|engineer|developer|coding|programmer|web dev|app dev|coder|it job)/.test(text)) {
-      return "Software Engineer banne ke liye aapko pehle ek bhasha pakadni padegi (jaise JavaScript, Java, C++ ya Python). Uske baad Data Structures aur Algorithms (DSA) par focus kijiye, aur kuch projects banaiye!";
-    } 
-    // Data Science / AI
-    else if (/(data science|ai|artificial intelligence|machine learning|data analyst|ml)/.test(text)) {
-      return "Data Science ya AI field me jaane ke liye aapko Maths (Statistics), Python aur Machine learning libraries aani chahiye. Data ke patterns nikalna iska core background hai.";
-    } 
-    // Internships
-    else if (/(internship|intern|training|fresher|job kaise|apply)/.test(text)) {
-      return "Internships hi aapka first step hain real-world experience ke liye! Aap hamaare website ke 'Jobs' section me 'Internship' filter use karke check kijiye aur directly apply karein.";
-    } 
-    // Resume
-    else if (/(resume|cv|biodata|portfolio|profile kaise|ats)/.test(text)) {
-      return "Ek dum jhakas Resume pehli demand hoti hai HR ki! Hamaare naye 'Resume Builder' menu par jao, apni details bharo aur instantly ek Professional ATS friendly PDF download kar lo.";
-    } 
-    // Interview Prep
-    else if (/(interview|hr|tyari|prep|taiyari|question|mock|round)/.test(text)) {
-      return "Interviews perfectly clear karne ke liye apni 'communication skills' par dhyan de. 'Ace Your Interviews' page par jao, wahan mock answers aur top technical questions readily aveliable hain!";
-    }
-    // Job/Placement
-    else if (/(placement|job|naukri|vacancy|company|tcs|infosys|wipro|google|amazon|role)/.test(text)) {
-      return "Placement todne ke liye apke pass 2 chize strong honi chaiye: 1. Core Technical Skills (Projects) 2. Communication! Companies regularly humare portal par visit karti hain, apna resume update rakho!";
-    }
-    // Thanks
-    else if (/(thanks|thank you|shukriya|dhanyawad|ok|achha|thik|badhiya|cool|great|awesome)/.test(text)) {
-      return "Welcome mere bhai! Aur kuch janna ho toh zaroor puchna. All the best apki journey ke liye! 🚀";
-    }
-    // Failure / Default
-    else {
-      return "Bhai aapka sawal main theek se samajh nahi paya. Thoda aur clearly puchiye na? Jaise 'internships ke bare me batao', 'salary kitni hai', ya 'resume kaise banaye'.";
-    }
-  };
-
-  const handleSend = (e) => {
+  const handleSend = async (e) => {
     e.preventDefault();
-    if (!input.trim()) return;
+    if (!input.trim() || isLoading) return;
 
-    // Add user message
-    const newMsg = input.trim();
-    setMessages(prev => [...prev, { text: newMsg, sender: 'user' }]);
+    const userMsg = input.trim();
+    setMessages(prev => [...prev, { text: userMsg, sender: 'user' }]);
     setInput('');
+    setIsLoading(true);
 
-    // Simulate thinking and send bot response
-    setTimeout(() => {
-      const response = getBotResponse(newMsg);
-      setMessages(prev => [...prev, { text: response, sender: 'bot' }]);
-    }, 600);
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000/api/v1'}/chat`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message: userMsg }),
+      });
+
+      const data = await response.json();
+      
+      if (data.response) {
+        setMessages(prev => [...prev, { text: data.response, sender: 'bot' }]);
+      } else {
+        setMessages(prev => [...prev, { text: "Sorry bhai, abhi network me kuch issue lag raha hai. Thodi der baad try karoge?", sender: 'bot' }]);
+      }
+    } catch (error) {
+      console.error("Chat Error:", error);
+      setMessages(prev => [...prev, { text: "Oops! Backend se connect nahi ho pa raha. Check karo ki server chal raha hai ya nahi.", sender: 'bot' }]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -131,6 +104,18 @@ const Chatbot = () => {
                 </div>
               </div>
             ))}
+            
+            {isLoading && (
+              <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+                <div style={{
+                  background: 'rgba(255,255,255,0.05)', color: '#94a3b8',
+                  padding: '0.8rem 1rem', borderRadius: '12px', fontSize: '0.8rem',
+                  borderBottomLeftRadius: '0', border: '1px solid rgba(255,255,255,0.1)'
+                }}>
+                  Thinking... 🤖
+                </div>
+              </div>
+            )}
             <div ref={messagesEndRef} />
           </div>
 
@@ -140,11 +125,16 @@ const Chatbot = () => {
               type="text" 
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Type your question..." 
-              style={{ flex: 1, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', padding: '0.8rem', borderRadius: '8px', outline: 'none' }}
+              placeholder={isLoading ? "Bot is thinking..." : "Type your question..."}
+              disabled={isLoading}
+              style={{ flex: 1, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', padding: '0.8rem', borderRadius: '8px', outline: 'none', opacity: isLoading ? 0.6 : 1 }}
             />
-            <button type="submit" style={{ background: '#3b82f6', color: 'white', border: 'none', padding: '0 1rem', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold' }}>
-              Send
+            <button 
+              type="submit" 
+              disabled={isLoading}
+              style={{ background: '#3b82f6', color: 'white', border: 'none', padding: '0 1rem', borderRadius: '8px', cursor: isLoading ? 'not-allowed' : 'pointer', fontWeight: 'bold', opacity: isLoading ? 0.6 : 1 }}
+            >
+              {isLoading ? '...' : 'Send'}
             </button>
           </form>
         </div>
