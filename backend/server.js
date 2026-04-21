@@ -28,22 +28,12 @@ const allowedOrigins = [
 ].filter(Boolean);
 
 app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    }
-    // For production safety, you can tighten this, but for now we allow any Vercel/localhost origin
-    if (origin.endsWith('.vercel.app')) {
-      return callback(null, true);
-    }
-    callback(new Error('Not allowed by CORS'));
-  },
+  origin: allowedOrigins,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
 }));
 
-// Handle preflight requests explicitly
 app.options('*', cors());
 
 // ── Body Parsers ─────────────────────────────────────────────────────────────
