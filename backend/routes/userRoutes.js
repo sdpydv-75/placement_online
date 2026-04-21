@@ -13,6 +13,4 @@ router.route('/')
 router.route('/:id')
   .delete(deleteUser);
 
-router.put('/:id/approve', toggleUserApproval);
-
 module.exports = router;
