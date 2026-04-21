@@ -25,6 +25,7 @@ import CampusPlacements from './pages/CampusPlacements';
 import CompanyReviews from './pages/CompanyReviews';
 import SuccessStories from './pages/SuccessStories';
 import CertifiedInternship from './pages/CertifiedInternship';
+import VerifyCertificate from './pages/VerifyCertificate';
 
 // Route Protector
 const ProtectedRoute = ({ children, allowedRoles }) => {
@@ -61,6 +62,7 @@ function App() {
               <Route path="/company-reviews" element={<CompanyReviews />} />
               <Route path="/success-stories" element={<SuccessStories />} />
               <Route path="/certified-internship" element={<CertifiedInternship />} />
+              <Route path="/verify" element={<VerifyCertificate />} />
 
               {/* Student Protected Routes */}
               <Route path="/profile" element={<ProtectedRoute allowedRoles={['student']}><StudentProfile /></ProtectedRoute>} />

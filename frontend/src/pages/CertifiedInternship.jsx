@@ -213,25 +213,41 @@ const CertifiedInternship = () => {
       {/* Hidden Certificate for Printing */}
       {showCertificate && certificateData && (
         <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: '#fff', zIndex: 9999, padding: '2rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <div style={{ border: '20px solid #1e293b', padding: '50px', outline: '5px solid #3b82f6', outlineOffset: '-10px', textAlign: 'center', background: '#fff', color: '#0f172a', width: '900px', height: '650px', position: 'relative' }}>
+          <div className="print-certificate" style={{ border: '20px solid #1e293b', padding: '50px', outline: '5px solid #3b82f6', outlineOffset: '-10px', textAlign: 'center', background: '#fff', color: '#0f172a', width: '1000px', height: '700px', position: 'relative' }}>
             <button onClick={() => setShowCertificate(false)} className="no-print" style={{ position: 'absolute', top: 20, right: 20, background: '#ef4444', color: 'white', border: 'none', padding: '10px 20px', cursor: 'pointer', borderRadius: '8px' }}>Close</button>
             <h1 style={{ fontSize: '2.5rem', margin: '1rem 0', fontFamily: 'serif', letterSpacing: '2px', color: '#1e293b' }}>CERTIFICATE OF COMPLETION</h1>
             <p style={{ fontSize: '1.2rem', margin: '1rem 0' }}>This is to proudly certify that</p>
             <h2 style={{ fontSize: '2.5rem', fontWeight: 'bold', margin: '1rem 0', color: '#3b82f6', textTransform: 'uppercase' }}>{user?.name || "Student Name"}</h2>
             <p style={{ fontSize: '1.2rem', margin: '1rem 0', lineHeight: 1.6 }}>has successfully completed the <b>{certificateData.duration}</b> Virtual Internship Program in</p>
             <h2 style={{ fontSize: '2rem', fontWeight: 'bold', margin: '1rem 0', color: '#ea580c' }}>{certificateData.courseName}</h2>
-            <p style={{ fontSize: '1rem', marginTop: '1rem' }}>administered by <b>ITM CERTIFIED PLACEMENT CELL</b></p>
-            <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '3rem' }}>
-              <div style={{ borderTop: '2px solid #0f172a', padding: '0.5rem 2rem' }}>Program Director</div>
-              <div style={{ borderTop: '2px solid #0f172a', padding: '0.5rem 2rem' }}>Date Issued: {new Date().toLocaleDateString()}</div>
+            <p style={{ fontSize: '1rem', marginTop: '1rem' }}>administered by <b>ITM College of Management, GIDA, Gorakhpur</b></p>
+            
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: '3rem', padding: '0 2rem' }}>
+              <div style={{ textAlign: 'left' }}>
+                <img 
+                  src={`https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${encodeURIComponent(`${window.location.origin}/verify?name=${user?.name}&course=${certificateData.courseName}&date=${new Date().toLocaleDateString()}&id=${certificateData._id}`)}`} 
+                  alt="Verification QR" 
+                  style={{ width: '100px', height: '100px', border: '1px solid #e2e8f0', padding: '5px' }}
+                />
+                <p style={{ fontSize: '0.7rem', color: '#64748b', marginTop: '0.5rem' }}>Scan to verify authenticity</p>
+              </div>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ borderTop: '2px solid #0f172a', width: '200px', marginBottom: '0.5rem' }}></div>
+                <div style={{ fontWeight: '700' }}>Program Director</div>
+              </div>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ borderTop: '2px solid #0f172a', width: '200px', marginBottom: '0.5rem' }}></div>
+                <div style={{ fontWeight: '700' }}>Date: {new Date().toLocaleDateString()}</div>
+              </div>
             </div>
+
             {/* Custom Print CSS */}
             <style>{`
               @media print {
                 body * { visibility: hidden; }
                 .no-print { display: none !important; }
                 .print-certificate, .print-certificate * { visibility: visible; }
-                .print-certificate { position: absolute; left: 0; top: 0; width: 100%; }
+                .print-certificate { position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: flex !important; }
               }
             `}</style>
           </div>
