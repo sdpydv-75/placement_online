@@ -3,13 +3,16 @@ const router = express.Router();
 const CertifiedEnrollment = require('../models/CertifiedEnrollment');
 const { protect, authorize } = require('../middleware/authMiddleware');
 
+// ⚠️  IMPORTANT: Specific/static routes MUST be defined BEFORE param routes (/:id)
+// to prevent Express matching 'me' as an ObjectId.
+
 // @desc    Enroll in Certified Internship
 // @route   POST /api/v1/certified/enroll
 // @access  Private
 router.post('/enroll', protect, async (req, res) => {
   try {
     const { courseName, duration } = req.body;
-    
+
     if (!courseName) {
       return res.status(400).json({ error: 'Course name is required.' });
     }
@@ -29,6 +32,18 @@ router.post('/enroll', protect, async (req, res) => {
     res.status(201).json({ success: true, data: enrollment });
   } catch (err) {
     console.error(err);
+    res.status(500).json({ error: 'Server Error' });
+  }
+});
+
+// @desc    Get current user's enrollments  ← MUST be before /:id routes
+// @route   GET /api/v1/certified/me
+// @access  Private
+router.get('/me', protect, async (req, res) => {
+  try {
+    const enrollments = await CertifiedEnrollment.find({ user: req.user.id });
+    res.json({ success: true, data: enrollments });
+  } catch (err) {
     res.status(500).json({ error: 'Server Error' });
   }
 });
@@ -71,18 +86,6 @@ router.put('/:id/status', protect, authorize('admin', 'recruiter'), async (req, 
     res.json({ success: true, data: enrollment });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Server Error' });
-  }
-});
-
-// @desc    Get current user's enrollments (all of them)
-// @route   GET /api/v1/certified/me
-// @access  Private
-router.get('/me', protect, async (req, res) => {
-  try {
-    const enrollments = await CertifiedEnrollment.find({ user: req.user.id });
-    res.json({ success: true, data: enrollments });
-  } catch (err) {
     res.status(500).json({ error: 'Server Error' });
   }
 });

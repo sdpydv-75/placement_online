@@ -7,7 +7,14 @@ const sendTokenResponse = (user, statusCode, res) => {
 
   res.status(statusCode).json({
     success: true,
-    token
+    token,
+    // Also return basic user info so frontend doesn't need extra /auth/me call
+    user: {
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role
+    }
   });
 };
 

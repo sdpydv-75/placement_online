@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
+import QuizSystem from '../components/QuizSystem';
+import TechnicalScreening from '../components/TechnicalScreening';
 
 const InterviewPrep = () => {
   const [activeModal, setActiveModal] = useState(null);
+  const [activeQuiz, setActiveQuiz] = useState(null);
+  const [activeTechRound, setActiveTechRound] = useState(false);
 
   const tips = [
     { title: "Mastering the HR Round", icon: "🤝", desc: "Common questions, behavioral patterns, and how to perfectly answer 'Tell me about yourself'." },
@@ -14,7 +18,10 @@ const InterviewPrep = () => {
     "Mastering the HR Round": [
       { q: "Tell me about yourself.", a: "Keep it professional. Start with your present role, touch on your past experience, and finish with your future goals." },
       { q: "Why do you want to work here?", a: "Research the company beforehand. Align their mission and values with your own career objectives." },
-      { q: "What is your greatest weakness?", a: "Share a real, minor flaw but emphasize the practical steps you are actively taking to improve it." }
+      { q: "What is your greatest weakness?", a: "Share a real, minor flaw but emphasize the practical steps you are actively taking to improve it." },
+      { q: "Where do you see yourself in 5 years?", a: "Focus on career growth, alignment with the company's trajectory, and your eagerness to take on more responsibilities." },
+      { q: "Why should we hire you?", a: "Highlight your unique skills, relevant experience, and how your specific accomplishments directly match the job requirements." },
+      { q: "How do you handle stress and pressure?", a: "Provide an example of a stressful situation you navigated successfully, focusing on your coping mechanisms like prioritizing tasks or staying organized." }
     ],
     "Technical Screenings": [
       { q: "What is the difference between SQL and NoSQL?", a: "SQL databases are relational and table-based, while NoSQL databases are non-relational and document/key-value based." },
@@ -53,9 +60,20 @@ const InterviewPrep = () => {
             <h3 style={{ fontSize: '1.2rem', color: '#f1f5f9', marginBottom: '0.8rem', fontWeight: '700' }}>{tip.title}</h3>
             <p style={{ color: '#64748b', fontSize: '0.9rem', lineHeight: '1.6', marginBottom: '1.5rem', flex: 1 }}>{tip.desc}</p>
             <button 
-              onClick={() => setActiveModal(tip.title)}
+              onClick={() => {
+                if (tip.title === "Mock Interviews" || tip.title === "Aptitude & Reasoning") {
+                  setActiveQuiz(tip.title);
+                } else if (tip.title === "Technical Screenings") {
+                  setActiveTechRound(true);
+                } else {
+                  setActiveModal(tip.title);
+                }
+              }}
               className="btn btn-outline" 
-              style={{ padding: '0.6rem 1.2rem', fontSize: '0.85rem', width: '100%' }}>
+              style={{ padding: '0.6rem 1.2rem', fontSize: '0.85rem', width: '100%', transition: 'all 0.3s ease' }}
+              onMouseOver={(e) => { e.currentTarget.style.background = 'rgba(139, 92, 246, 0.1)'; e.currentTarget.style.borderColor = '#8b5cf6'; }}
+              onMouseOut={(e) => { e.currentTarget.style.background = 'rgba(255, 255, 255, 0.03)'; e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)'; }}
+            >
               Start Practicing
             </button>
           </div>
@@ -102,6 +120,18 @@ const InterviewPrep = () => {
             </div>
           </div>
         </div>
+      )}
+      {/* Quiz Fullscreen View */}
+      {activeQuiz && (
+        <QuizSystem 
+          category={activeQuiz} 
+          onClose={() => setActiveQuiz(null)} 
+        />
+      )}
+
+      {/* Technical Screening View */}
+      {activeTechRound && (
+        <TechnicalScreening onClose={() => setActiveTechRound(false)} />
       )}
     </div>
   );
