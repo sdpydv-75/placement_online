@@ -52,38 +52,75 @@ const Chatbot = () => {
 
   return (
     <>
+      <style>{`
+        @keyframes fadeInUp Chatbot {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .chat-window {
+          position: fixed;
+          bottom: 2rem;
+          right: 2rem;
+          zIndex: 1000;
+          width: min(calc(100vw - 2rem), 380px);
+          height: min(calc(100vh - 4rem), 550px);
+          background: #1e293b;
+          border: 1px solid rgba(255,255,255,0.1);
+          border-radius: 20px;
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
+          box-shadow: 0 25px 60px -12px rgba(0,0,0,0.6);
+          animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @media (max-width: 480px) {
+          .chat-window {
+            bottom: 0;
+            right: 0;
+            width: 100vw;
+            height: 100vh;
+            border-radius: 0;
+          }
+          .chat-trigger {
+            bottom: 1.5rem !important;
+            right: 1.5rem !important;
+            width: 55px !important;
+            height: 55px !important;
+          }
+        }
+      `}</style>
+
       {!isOpen && (
         <button 
+          className="chat-trigger"
           onClick={() => setIsOpen(true)}
           style={{
             position: 'fixed', bottom: '2rem', right: '2rem', zIndex: 1000,
             background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)', color: 'white',
-            width: '60px', height: '60px', borderRadius: '50%', border: 'none',
-            boxShadow: '0 10px 25px rgba(139,92,246,0.4)', cursor: 'pointer',
+            width: '64px', height: '64px', borderRadius: '50%', border: 'none',
+            boxShadow: '0 10px 30px rgba(59,130,246,0.4)', cursor: 'pointer',
             display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '1.8rem',
-            transition: 'transform 0.3s ease'
+            transition: 'all 0.3s ease'
           }}
-          onMouseOver={e => e.currentTarget.style.transform = 'scale(1.1)'}
-          onMouseOut={e => e.currentTarget.style.transform = 'scale(1)'}
+          onMouseOver={e => e.currentTarget.style.transform = 'scale(1.1) rotate(5deg)'}
+          onMouseOut={e => e.currentTarget.style.transform = 'scale(1) rotate(0)'}
         >
           💬
         </button>
       )}
 
       {isOpen && (
-        <div style={{
-          position: 'fixed', bottom: '2rem', right: '2rem', zIndex: 1000,
-          width: '350px', height: '500px', background: '#1e293b', border: '1px solid rgba(255,255,255,0.1)',
-          borderRadius: '16px', overflow: 'hidden', display: 'flex', flexDirection: 'column',
-          boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)', animation: 'fadeInUp 0.3s ease'
-        }}>
+        <div className="chat-window">
           {/* Header */}
-          <div style={{ background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)', padding: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <span style={{ fontSize: '1.5rem' }}>🤖</span>
-              <h3 style={{ color: 'white', margin: 0, fontSize: '1.1rem', fontWeight: '700' }}>Career Assistant</h3>
+          <div style={{ background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)', padding: '1.2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+              <div style={{ width: '40px', height: '40px', background: 'rgba(255,255,255,0.2)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem' }}>🤖</div>
+              <div>
+                <h3 style={{ color: 'white', margin: 0, fontSize: '1rem', fontWeight: '800', letterSpacing: '0.5px' }}>Career Assistant</h3>
+                <p style={{ color: 'rgba(255,255,255,0.7)', margin: 0, fontSize: '0.7rem', fontWeight: '600' }}>ONLINE NOW</p>
+              </div>
             </div>
-            <button onClick={() => setIsOpen(false)} style={{ background: 'transparent', border: 'none', color: 'white', fontSize: '1.5rem', cursor: 'pointer' }}>&times;</button>
+            <button onClick={() => setIsOpen(false)} style={{ background: 'rgba(0,0,0,0.1)', border: 'none', color: 'white', width: '32px', height: '32px', borderRadius: '50%', fontSize: '1.2rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>&times;</button>
           </div>
 
           {/* Messages Area */}

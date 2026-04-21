@@ -44,7 +44,6 @@ const Dashboard = () => {
     } else if (user.role === 'recruiter') {
       const fetchRecruiterJobs = async () => {
         try {
-          // Since getJobs gets all jobs, we filter by recruiter manually, or use view applicants flow
           const res = await api.get('/jobs');
           const myJobs = res.data.data.filter(job => job.recruiter && job.recruiter._id === user._id);
           setRecruiterJobs(myJobs);
@@ -77,60 +76,60 @@ const Dashboard = () => {
 
   if (user.role === 'admin') {
     return (
-      <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
-        <h2 className="gradient-text" style={{ marginBottom: '2rem' }}>Administration Hub</h2>
+      <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '1rem' }}>
+        <h2 className="gradient-text" style={{ marginBottom: '2rem', fontSize: 'clamp(1.5rem, 4vw, 2rem)' }}>Administration Hub</h2>
         
         {/* Analytics Section */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem', marginBottom: '3rem' }}>
+        <div className="responsive-grid" style={{ marginBottom: '3rem' }}>
           <div className="glass-panel" style={{ textAlign: 'center', padding: '1.5rem' }}>
-            <h3 style={{ color: 'var(--text-muted)', fontSize: '1rem', textTransform: 'uppercase' }}>Total Users</h3>
-            <p style={{ fontSize: '3rem', fontWeight: 'bold', color: 'var(--primary)' }}>{stats.users}</p>
+            <h3 style={{ color: 'var(--text-muted)', fontSize: '0.85rem', textTransform: 'uppercase' }}>Total Users</h3>
+            <p style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 'bold', color: 'var(--primary)', margin: '0.5rem 0' }}>{stats.users}</p>
           </div>
           <div className="glass-panel" style={{ textAlign: 'center', padding: '1.5rem' }}>
-            <h3 style={{ color: 'var(--text-muted)', fontSize: '1rem', textTransform: 'uppercase' }}>Active Jobs</h3>
-            <p style={{ fontSize: '3rem', fontWeight: 'bold', color: 'var(--primary)' }}>{stats.jobs}</p>
+            <h3 style={{ color: 'var(--text-muted)', fontSize: '0.85rem', textTransform: 'uppercase' }}>Active Jobs</h3>
+            <p style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 'bold', color: 'var(--primary)', margin: '0.5rem 0' }}>{stats.jobs}</p>
           </div>
           <div className="glass-panel" style={{ textAlign: 'center', padding: '1.5rem' }}>
-            <h3 style={{ color: 'var(--text-muted)', fontSize: '1rem', textTransform: 'uppercase' }}>Applications</h3>
-            <p style={{ fontSize: '3rem', fontWeight: 'bold', color: 'var(--primary)' }}>{stats.applications}</p>
+            <h3 style={{ color: 'var(--text-muted)', fontSize: '0.85rem', textTransform: 'uppercase' }}>Applications</h3>
+            <p style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 'bold', color: 'var(--primary)', margin: '0.5rem 0' }}>{stats.applications}</p>
           </div>
         </div>
 
         {/* User Management Section */}
-        <div className="glass-panel">
-          <h3 style={{ marginBottom: '1.5rem' }}>Manage Registered System Users</h3>
-          <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+        <div className="glass-panel" style={{ padding: 'clamp(1rem, 3vw, 2rem)' }}>
+          <h3 style={{ marginBottom: '1.5rem', fontSize: '1.2rem' }}>System Users</h3>
+          <div className="table-responsive">
+            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', minWidth: '600px' }}>
               <thead>
                 <tr style={{ borderBottom: '1px solid var(--border-glass)' }}>
-                  <th style={{ padding: '1rem 0', color: 'var(--text-muted)' }}>Name</th>
-                  <th style={{ padding: '1rem 0', color: 'var(--text-muted)' }}>Email</th>
-                  <th style={{ padding: '1rem 0', color: 'var(--text-muted)' }}>Role</th>
-                  <th style={{ padding: '1rem 0', color: 'var(--text-muted)', textAlign: 'right' }}>Actions</th>
+                  <th style={{ padding: '1rem 0', color: 'var(--text-muted)', fontSize: '0.9rem' }}>Name</th>
+                  <th style={{ padding: '1rem 0', color: 'var(--text-muted)', fontSize: '0.9rem' }}>Email</th>
+                  <th style={{ padding: '1rem 0', color: 'var(--text-muted)', fontSize: '0.9rem' }}>Role</th>
+                  <th style={{ padding: '1rem 0', color: 'var(--text-muted)', fontSize: '0.9rem', textAlign: 'right' }}>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {users.map(u => (
                   <tr key={u._id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                    <td style={{ padding: '1rem 0' }}>{u.name}</td>
-                    <td style={{ padding: '1rem 0' }}>{u.email}</td>
-                    <td style={{ padding: '1rem 0' }}>
+                    <td style={{ padding: '1rem 0', fontSize: '0.9rem' }}>{u.name}</td>
+                    <td style={{ padding: '0.5rem 0', fontSize: '0.9rem' }}>{u.email}</td>
+                    <td style={{ padding: '0.5rem 0' }}>
                       <span style={{ 
                         padding: '0.2rem 0.6rem', 
                         borderRadius: '4px', 
-                        fontSize: '0.8rem',
+                        fontSize: '0.75rem',
+                        fontWeight: '700',
                         background: u.role === 'admin' ? 'rgba(239, 68, 68, 0.2)' : u.role === 'recruiter' ? 'rgba(59, 130, 246, 0.2)' : 'rgba(16, 185, 129, 0.2)',
                         color: u.role === 'admin' ? '#ef4444' : u.role === 'recruiter' ? '#3b82f6' : '#10b981'
                       }}>
                         {u.role.toUpperCase()}
                       </span>
                     </td>
-                    <td style={{ padding: '1rem 0', textAlign: 'right' }}>
+                    <td style={{ padding: '0.5rem 0', textAlign: 'right' }}>
                       {u._id !== user._id && (
                         <button 
                           onClick={() => handleDeleteUser(u._id)}
-                          className="btn btn-outline" 
-                          style={{ padding: '0.4rem 0.8rem', fontSize: '0.85rem', color: '#ef4444', borderColor: '#ef4444' }}
+                          style={{ padding: '0.3rem 0.7rem', fontSize: '0.75rem', color: '#ef4444', border: '1px solid #ef4444', background: 'transparent', borderRadius: '6px', cursor: 'pointer' }}
                         >
                           Delete
                         </button>
@@ -138,9 +137,6 @@ const Dashboard = () => {
                     </td>
                   </tr>
                 ))}
-                {users.length === 0 && (
-                  <tr><td colSpan="4" style={{ padding: '1rem 0', color: 'var(--text-muted)' }}>No standard users located.</td></tr>
-                )}
               </tbody>
             </table>
           </div>
@@ -149,7 +145,6 @@ const Dashboard = () => {
     );
   }
 
-  // Standard User Dashboard Render (Student/Recruiter)
   return (
     <div style={
       user.role === 'student' ? {
@@ -159,83 +154,100 @@ const Dashboard = () => {
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundAttachment: 'fixed',
-        padding: '3rem 1.5rem',
+        padding: 'clamp(2rem, 5vw, 4rem) 1.5rem',
         position: 'relative'
-      } : { padding: '2rem 1.5rem' }
+      } : { padding: 'clamp(2rem, 5vw, 4rem) 1.5rem', minHeight: '100vh' }
     }>
-      {/* Dark overlay specifically for the student background to ensure text readability */}
       {user.role === 'student' && (
-        <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(10, 15, 30, 0.6)', backdropFilter: 'blur(5px)', zIndex: 0 }}></div>
+        <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(10, 15, 30, 0.7)', backdropFilter: 'blur(8px)', zIndex: 0 }}></div>
       )}
       
-      <div style={{ maxWidth: '800px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
-        <div className="glass-panel" style={{ marginBottom: '2rem', background: user.role === 'student' ? 'rgba(30, 41, 59, 0.5)' : 'var(--bg-card)', backdropFilter: 'blur(20px)' }}>
-          <h2 className="gradient-text" style={user.role === 'student' ? { color: '#ffffff' } : {}}>Welcome back, {user.name}</h2>
-          <p style={{ color: user.role === 'student' ? '#cbd5e1' : 'var(--text-muted)' }}>Authenticated as: {user.role.toUpperCase()}</p>
+      <div style={{ maxWidth: '850px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
+        <div className="glass-panel" style={{ marginBottom: '2rem', padding: 'clamp(1.5rem, 4vw, 2.5rem)' }}>
+          <h2 className="gradient-text" style={{ fontSize: 'clamp(1.5rem, 5vw, 2.2rem)', marginBottom: '0.5rem' }}>Welcome back, {user.name}</h2>
+          <p style={{ color: '#94a3b8', fontSize: '0.95rem' }}>View your activity and account status.</p>
         </div>
         
         {user.role === 'student' ? (
-          <div className="glass-panel" style={{ background: 'rgba(30, 41, 59, 0.5)', backdropFilter: 'blur(20px)' }}>
-            <h3 style={{ color: '#fff' }}>Your Applications Log</h3>
+          <div className="glass-panel" style={{ padding: 'clamp(1.2rem, 4vw, 2rem)' }}>
+            <h3 style={{ color: '#fff', fontSize: '1.25rem', marginBottom: '1.5rem' }}>Application History</h3>
             {applications.length > 0 ? (
-              <div style={{ marginTop: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 {applications.map(app => (
-                  <div key={app._id} style={{ padding: '1rem', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', background: 'rgba(0,0,0,0.3)', transition: 'transform 0.2s', cursor: 'pointer' }} onMouseOver={e => e.currentTarget.style.background = 'rgba(0,0,0,0.5)'} onMouseOut={e => e.currentTarget.style.background = 'rgba(0,0,0,0.3)'}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <div>
-                        <h4 style={{ color: '#fff', fontSize: '1.1rem' }}>{app.job.title}</h4>
-                        <p style={{ color: '#94a3b8', fontSize: '0.9rem' }}>{app.job.company}</p>
+                  <div key={app._id} style={{ padding: '1.2rem', borderRadius: '16px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem' }}>
+                      <div style={{ flex: '1' }}>
+                        <h4 style={{ color: '#fff', fontSize: '1.1rem', marginBottom: '0.3rem' }}>{app.job.title}</h4>
+                        <p style={{ color: '#64748b', fontSize: '0.9rem' }}>{app.job.company}</p>
                       </div>
                       <span style={{ 
-                        padding: '0.3rem 0.8rem', 
-                        borderRadius: '8px', 
-                        fontSize: '0.85rem', 
-                        fontWeight: '600',
+                        padding: '0.4rem 0.8rem', 
+                        borderRadius: '10px', 
+                        fontSize: '0.8rem', 
+                        fontWeight: '700',
                         border: `1px solid ${getStatusColor(app.status)}`,
                         color: getStatusColor(app.status),
-                        background: 'rgba(255,255,255,0.05)'
+                        background: `${getStatusColor(app.status)}15`
                       }}>
                         {app.status}
                       </span>
                     </div>
-                    <p style={{ marginTop: '0.8rem', color: '#64748b', fontSize: '0.85rem' }}>
-                      Applied on: {new Date(app.createdAt).toLocaleDateString()}
-                    </p>
                   </div>
                 ))}
               </div>
             ) : (
-              <p style={{ color: '#94a3b8', marginTop: '0.5rem' }}>
-                No recent applications to display. Keep browsing roles!
-              </p>
+              <p style={{ color: '#64748b', textAlign: 'center', padding: '2rem' }}>No applications yet. Start your journey today!</p>
             )}
-            <button onClick={() => navigate('/jobs')} className="btn btn-primary" style={{ marginTop: '2rem', width: '100%', background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)', border: 'none' }}>Explore More Jobs ✨</button>
+            <button onClick={() => navigate('/jobs')} style={{ 
+              marginTop: '2rem', 
+              width: '100%', 
+              padding: '1rem', 
+              borderRadius: '12px', 
+              background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)', 
+              color: '#fff', 
+              fontWeight: '700', 
+              border: 'none', 
+              cursor: 'pointer',
+              boxShadow: '0 10px 20px rgba(59, 130, 246, 0.3)'
+            }}>
+              Explore New Opportunities
+            </button>
           </div>
         ) : (
-          <div className="glass-panel">
-            <h3>Your Active Job Postings</h3>
+          <div className="glass-panel" style={{ padding: 'clamp(1.2rem, 4vw, 2rem)' }}>
+            <h3 style={{ fontSize: '1.25rem', marginBottom: '1.5rem' }}>Active Job Postings</h3>
             {recruiterJobs.length > 0 ? (
-              <div style={{ marginTop: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 {recruiterJobs.map(job => (
-                  <div key={job._id} style={{ padding: '1rem', border: '1px solid var(--border-glass)', borderRadius: '8px', background: 'rgba(0,0,0,0.2)' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <div>
+                  <div key={job._id} style={{ padding: '1.2rem', borderRadius: '16px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
+                      <div style={{ flex: '1' }}>
                         <h4 style={{ color: 'var(--text-main)', fontSize: '1.1rem' }}>{job.title}</h4>
-                        <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>{job.type} • {job.location}</p>
+                        <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>{job.type} • {job.location}</p>
                       </div>
-                      <button onClick={() => navigate('/applicants')} className="btn btn-outline" style={{ padding: '0.4rem 0.8rem', fontSize: '0.85rem' }}>
-                        View Applicants
+                      <button onClick={() => navigate('/applicants')} style={{ padding: '0.5rem 1rem', borderRadius: '8px', border: '1px solid var(--border-glass)', background: 'transparent', color: 'var(--text-main)', cursor: 'pointer', fontWeight: '600' }}>
+                        Applicants
                       </button>
                     </div>
                   </div>
                 ))}
               </div>
             ) : (
-              <p style={{ color: 'var(--text-muted)', marginTop: '0.5rem' }}>
-                You have not published any jobs yet. Open the Post Job tab to start recruiting!
-              </p>
+              <p style={{ color: 'var(--text-muted)', textAlign: 'center', padding: '2rem' }}>You haven't posted any jobs yet.</p>
             )}
-            <button onClick={() => navigate('/post-job')} className="btn btn-primary" style={{ marginTop: '1.5rem' }}>Post New Job</button>
+            <button onClick={() => navigate('/post-job')} style={{ 
+              marginTop: '1.5rem', 
+              width: '100%', 
+              padding: '1rem', 
+              borderRadius: '12px', 
+              background: 'var(--primary)', 
+              color: '#fff', 
+              fontWeight: '700', 
+              border: 'none', 
+              cursor: 'pointer' 
+            }}>
+              Post a New Job
+            </button>
           </div>
         )}
       </div>
@@ -244,4 +256,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-

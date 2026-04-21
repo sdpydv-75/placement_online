@@ -282,10 +282,19 @@ const Register = () => {
         .reg-right-dots span.active { background: #1d6a3a; }
 
         /* Responsive */
-        @media (max-width: 720px) {
-          .reg-card { flex-direction: column; max-width: 420px; }
-          .reg-right { width: 100%; min-height: 200px; }
-          .reg-left { padding: 2rem 1.5rem; }
+        @media (max-width: 900px) {
+          .reg-card { max-width: 500px; flex-direction: column; }
+          .reg-right { width: 100%; min-height: 180px; padding: 2rem 1rem; }
+          .reg-avatar { width: 50px; height: 50px; font-size: 1.4rem; }
+          .reg-right-wave { border-radius: 0; height: 100%; width: 100%; }
+        }
+
+        @media (max-width: 480px) {
+          .reg-page-wrap { padding: 1rem 0.5rem; }
+          .reg-left { padding: 2rem 1.2rem; }
+          .reg-title { font-size: 1.7rem; }
+          .reg-right { display: none; } /* Hide illustration on very small screens for focus */
+          .reg-card { border-radius: 20px; box-shadow: none; background: #1a2740; }
         }
       `}</style>
 

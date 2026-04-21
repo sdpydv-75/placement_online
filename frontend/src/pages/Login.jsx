@@ -287,11 +287,20 @@ const Login = () => {
         }
 
         /* Responsive */
-        @media (max-width: 700px) {
-          .login-card { flex-direction: column; max-width: 420px; }
-          .login-right { width: 100%; min-height: 220px; }
-          .login-character { width: 160px; }
-          .login-left { padding: 2rem 1.5rem; }
+        @media (max-width: 900px) {
+          .login-card { max-width: 500px; flex-direction: column; }
+          .login-right { width: 100%; min-height: 200px; padding: 2rem 1rem; }
+          .login-character { width: 140px; }
+          .login-right-wave { border-radius: 0; height: 100%; width: 100%; }
+        }
+
+        @media (max-width: 480px) {
+          .login-page-wrap { padding: 1rem 0.5rem; }
+          .login-left { padding: 2rem 1.2rem; }
+          .login-title { font-size: 1.8rem; }
+          .login-avatar { width: 60px; height: 60px; font-size: 1.5rem; }
+          .login-right { display: none; } /* Hide illustration on very small screens for focus */
+          .login-card { border-radius: 20px; box-shadow: none; background: #1a2740; }
         }
       `}</style>
 

@@ -207,14 +207,72 @@ a:hover {
   cursor: pointer;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  body {
-    font-size: 0.95rem;
+/* Responsive Utilities */
+@media (max-width: 1024px) {
+  :root {
+    --fluid-h1: 2.5rem;
+    --fluid-h2: 2rem;
   }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --fluid-h1: 2rem;
+    --fluid-h2: 1.6rem;
+    --fluid-text: 0.95rem;
+  }
+  
+  body {
+    font-size: var(--fluid-text);
+  }
+
   .btn {
     padding: 0.75rem 1.5rem;
-    font-size: 1rem;
+    font-size: 0.95rem;
   }
+
+  .card {
+    padding: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --fluid-h1: 1.75rem;
+    --fluid-h2: 1.4rem;
+  }
+}
+
+/* Helper Classes */
+.mobile-hide {
+  @media (max-width: 768px) { display: none !important; }
+}
+
+.mobile-only {
+  @media (min-width: 769px) { display: none !important; }
+}
+
+.responsive-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 1024px) {
+  .responsive-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .responsive-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
