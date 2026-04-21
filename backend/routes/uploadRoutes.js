@@ -6,10 +6,14 @@ const { protect, authorize } = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
-// Ensure upload dir exists safely
+// Ensure upload dir exists safely (Vercel friendly)
 const uploadDir = 'uploads/';
-if (!fs.existsSync(uploadDir)){
-    fs.mkdirSync(uploadDir);
+try {
+    if (!fs.existsSync(uploadDir)){
+        fs.mkdirSync(uploadDir, { recursive: true });
+    }
+} catch (err) {
+    console.warn('Could not create uploads directory (expected on some serverless providers):', err.message);
 }
 
 // Mongoose-friendly storage generator
