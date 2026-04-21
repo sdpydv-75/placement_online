@@ -1,15 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const CertifiedEnrollment = require('../models/CertifiedEnrollment');
-const { protect, authorize } = require('../middleware/authMiddleware');
+const { protect, authorize, checkApproved } = require('../middleware/authMiddleware');
 
 // ⚠️  IMPORTANT: Specific/static routes MUST be defined BEFORE param routes (/:id)
 // to prevent Express matching 'me' as an ObjectId.
 
 // @desc    Enroll in Certified Internship
 // @route   POST /api/v1/certified/enroll
-// @access  Private
-router.post('/enroll', protect, async (req, res) => {
+// @access  Private (Approved Students)
+router.post('/enroll', protect, checkApproved, async (req, res) => {
   try {
     const { courseName, duration } = req.body;
 
@@ -38,8 +38,8 @@ router.post('/enroll', protect, async (req, res) => {
 
 // @desc    Get current user's enrollments  ← MUST be before /:id routes
 // @route   GET /api/v1/certified/me
-// @access  Private
-router.get('/me', protect, async (req, res) => {
+// @access  Private (Approved Students)
+router.get('/me', protect, checkApproved, async (req, res) => {
   try {
     const enrollments = await CertifiedEnrollment.find({ user: req.user.id });
     res.json({ success: true, data: enrollments });
