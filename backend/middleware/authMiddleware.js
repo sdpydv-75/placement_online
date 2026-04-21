@@ -58,20 +58,4 @@ const authorize = (...roles) => {
   };
 };
 
-// Only allow approved students (or admins)
-const checkApproved = (req, res, next) => {
-  if (req.user.role === 'admin') {
-    return next();
-  }
-
-  if (!req.user.isApproved) {
-    return res.status(403).json({
-      success: false,
-      error: 'Your account is pending admin approval. Please wait for access to be granted.'
-    });
-  }
-
-  next();
-};
-
-module.exports = { protect, authorize, checkApproved };
+module.exports = { protect, authorize };

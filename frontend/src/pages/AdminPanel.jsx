@@ -166,8 +166,12 @@ const AdminPanel = () => {
           <h1 style={{ fontSize: '2.2rem', fontWeight: '900', marginBottom: '0.3rem' }}>
             <span style={{ background: 'linear-gradient(90deg, #3b82f6, #8b5cf6)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Admin Control Panel</span>
           </h1>
-          <p style={{ color: '#64748b', fontSize: '0.95rem' }}>Welcome back, {user?.name || 'Admin'}. Administrative management mode active.</p>
+          <p style={{ color: '#64748b', fontSize: '0.95rem' }}>Welcome back, {user?.name || 'Admin'}. You have full control.</p>
         </div>
+        <button onClick={() => { setEditingJob(null); setJobForm({ title: '', description: '', company: '', location: '', skills: '', type: 'Full-time' }); setShowAddJob(true); }}
+          style={{ background: 'linear-gradient(135deg, #ea580c 0%, #f97316 100%)', color: '#fff', border: 'none', padding: '0.8rem 2rem', borderRadius: '12px', fontWeight: '800', cursor: 'pointer', fontSize: '0.95rem', boxShadow: '0 4px 14px rgba(234,88,12,0.3)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          ➕ Add New Job
+        </button>
       </div>
 
       {/* Stats Cards */}
@@ -373,6 +377,10 @@ const AdminPanel = () => {
               <h2 style={{ margin: 0, fontSize: '1.4rem', fontWeight: '800', color: '#f1f5f9' }}>🎓 ITM Internship Programs</h2>
               <p style={{ margin: '0.3rem 0 0', color: '#64748b', fontSize: '0.85rem' }}>Manage internship courses shown on the Certified Internship page</p>
             </div>
+            <button onClick={() => setShowAddInternship(true)}
+              style={{ background: 'linear-gradient(135deg, #10b981 0%, #3b82f6 100%)', color: '#fff', border: 'none', padding: '0.8rem 1.8rem', borderRadius: '12px', fontWeight: '800', cursor: 'pointer', fontSize: '0.9rem', boxShadow: '0 4px 14px rgba(16,185,129,0.3)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              ➕ Add Internship
+            </button>
           </div>
 
           {/* Internships Table */}
@@ -436,7 +444,7 @@ const AdminPanel = () => {
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
               <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-                {['Name', 'Email', 'Role', 'Status', 'Actions'].map(h => (
+                {['Name', 'Email', 'Role', 'Joined', 'Actions'].map(h => (
                   <th key={h} style={{ padding: '1rem 1.5rem', textAlign: 'left', color: '#64748b', fontSize: '0.8rem', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{h}</th>
                 ))}
               </tr>
@@ -458,18 +466,7 @@ const AdminPanel = () => {
                       {u.role}
                     </span>
                   </td>
-                  <td style={{ padding: '1rem 1.5rem' }}>
-                    {u.role === 'student' ? (
-                      <button 
-                        onClick={() => handleToggleApproval(u._id)}
-                        style={{ background: u.isApproved ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)', color: u.isApproved ? '#10b981' : '#ef4444', border: `1px solid ${u.isApproved ? '#10b98144' : '#ef444444'}`, padding: '0.4rem 1rem', borderRadius: '8px', cursor: 'pointer', fontWeight: '700', fontSize: '0.8rem' }}
-                      >
-                        {u.isApproved ? '✅ Approved' : '⏳ Pending'}
-                      </button>
-                    ) : (
-                      <span style={{ color: '#64748b', fontSize: '0.8rem' }}>N/A</span>
-                    )}
-                  </td>
+                  <td style={{ padding: '1rem 1.5rem', color: '#64748b', fontSize: '0.85rem' }}>{new Date(u.createdAt).toLocaleDateString()}</td>
                   <td style={{ padding: '1rem 1.5rem' }}>
                     {u.role !== 'admin' ? (
                       <button onClick={() => handleDeleteUser(u._id)} style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', color: '#ef4444', padding: '0.35rem 0.8rem', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', fontSize: '0.8rem' }}>🗑 Delete</button>

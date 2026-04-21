@@ -1,28 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const Internship = require('../models/Internship');
-const { protect, authorize, checkApproved } = require('../middleware/authMiddleware');
+const { protect, authorize } = require('../middleware/authMiddleware');
 
 // @desc    Get all internships (public)
 // @route   GET /api/v1/internships
-// @access  Public (Guest) / Private (Approved Students)
+// @access  Public
 router.get('/', async (req, res) => {
-  // If user is authenticated as student, check approval
-  const authHeader = req.headers.authorization;
-  if (authHeader && authHeader.startsWith('Bearer')) {
-    try {
-      const jwt = require('jsonwebtoken');
-      const User = require('../models/User');
-      const token = authHeader.split(' ')[1];
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      const user = await User.findById(decoded.id);
-      if (user && user.role === 'student' && !user.isApproved) {
-        return res.status(403).json({ success: false, error: 'Your account is pending admin approval.' });
-      }
-    } catch (err) {
-      // Ignore token errors for public view, but we've checked the important part
-    }
-  }
   try {
     const internships = await Internship.find().sort('-createdAt');
     res.json({ success: true, data: internships });
