@@ -21,22 +21,30 @@ const app = express();
 
 // ── CORS Configuration ──────────────────────────────────────────────────────
 const allowedOrigins = [
-  'http://localhost:5173',   // Vite dev server
-  'http://localhost:3000',   // CRA / alternate
-  process.env.FRONTEND_URL,  // Production frontend URL (set in .env)
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'https://placement-online-qghg.vercel.app',
+  process.env.FRONTEND_URL,
 ].filter(Boolean);
 
 app.use(cors({
   origin: (origin, callback) => {
-    // Allow requests with no origin (Postman, curl, mobile apps)
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin)) return callback(null, true);
-    return callback(null, true); // Open for local dev — tighten in production
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    // For production safety, you can tighten this, but for now we allow any Vercel/localhost origin
+    if (origin.endsWith('.vercel.app')) {
+      return callback(null, true);
+    }
+    callback(new Error('Not allowed by CORS'));
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
 }));
+
+// Handle preflight requests explicitly
+app.options('*', cors());
 
 // ── Body Parsers ─────────────────────────────────────────────────────────────
 app.use(express.json({ limit: '10mb' }));
